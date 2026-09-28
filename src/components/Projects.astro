@@ -3,39 +3,139 @@ const projects = [
   {
     title: "Proyecto SaaS (En desarrollo)",
     description: "Plataforma SaaS en la que me encuentro trabajando actualmente. Implementa arquitectura escalable, lógica de negocio y gestión de datos.",
-    tags: ["SaaS", "Desarrollo Web", "Fullstack"],
-    github: "https://github.com/tu-usuario", // Cambia esto por tu enlace de GitHub
+    tags: ["Java", "JavaScript"],
+    github: "https://github.com/adrianapereira-ops",
     inProgress: true
   }
 ];
 ---
 
 <div class="projects-container">
+
     <h2>Proyectos</h2>
+
     <div class="separador"></div>
 
+    <!-- FILTRO DE LENGUAJES -->
+    <div class="filters">
+
+        <button class="filter active" data-language="Todos">
+            Todos
+        </button>
+
+        <button class="filter" data-language="Java">
+            Java
+        </button>
+
+        <button class="filter" data-language="JavaScript">
+            JavaScript
+        </button>
+
+         <button class="filter" data-language="php">
+            PHP
+        </button>
+
+         <button class="filter" data-language="python">
+            Python
+        </button>
+
+         <button class="filter" data-language="C++">
+            C++
+        </button>
+
+    </div>
+
+
+    <!-- PROYECTOS -->
     <div class="projects-grid">
+
         {projects.map((project) => (
-            <div class="project-card">
+
+            <div class="project-card" data-tags={project.tags.join(",")}>
+
                 <div class="card-header">
+
                     <h3>{project.title}</h3>
-                    {project.inProgress && <span class="badge-status">En desarrollo</span>}
+
+                    {project.inProgress && (
+                        <span class="badge-status">
+                            En desarrollo
+                        </span>
+                    )}
+
                 </div>
+
                 <p>{project.description}</p>
+
                 <div class="tags">
+
                     {project.tags.map((tag) => (
                         <span class="tag">{tag}</span>
                     ))}
+
                 </div>
+
                 <div class="card-links">
-                    <a href="https://github.com/adrianapereira-ops/nailbook.git" target="_blank" rel="noopener noreferrer" class="link-btn">Ver en GitHub</a>
+
+                    <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-btn"
+                    >
+                        Ver en GitHub
+                    </a>
+
                 </div>
+
             </div>
+
         ))}
+
     </div>
+
 </div>
 
+
+<script>
+    const filters = document.querySelectorAll(".filter");
+    const projects = document.querySelectorAll(".project-card");
+
+    filters.forEach((filter) => {
+
+        filter.addEventListener("click", () => {
+
+            const selectedLanguage = filter.getAttribute("data-language");
+
+            filters.forEach((button) => {
+                button.classList.remove("active");
+            });
+
+            filter.classList.add("active");
+
+            projects.forEach((project) => {
+
+                const tags = project.getAttribute("data-tags") || "";
+
+                if (
+                    selectedLanguage === "Todos" ||
+                    tags.includes(selectedLanguage || "")
+                ) {
+                    project.classList.remove("hidden");
+                } else {
+                    project.classList.add("hidden");
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+
 <style>
+
 .projects-container {
     max-width: 800px;
     margin: 0 auto;
@@ -43,24 +143,67 @@ const projects = [
     font-family: Inter, Roboto, Arial, sans-serif;
 }
 
+
+/* TÍTULO */
+
 .projects-container h2 {
     margin: 0;
     font-size: 32px;
     font-weight: 600;
 }
 
+
+/* SEPARADOR */
+
 .separador {
     width: 60px;
     height: 2px;
     background: currentColor;
-    margin: 15px 0 30px 0;
+    margin: 15px 0 20px 0;
 }
+
+
+/* FILTROS */
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.filter {
+    background: rgba(240, 65, 255, 0.1);
+    color: #a81d85;
+    border: 1px solid rgba(240, 65, 255, 0.25);
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-family: Inter, Roboto, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter:hover {
+    background: rgba(240, 65, 255, 0.2);
+}
+
+.filter.active {
+    background: #a81d85;
+    color: white;
+}
+
+
+/* PROYECTOS */
 
 .projects-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 }
+
+
+/* TARJETA */
 
 .project-card {
     background: rgba(255, 255, 255, 0.4);
@@ -70,6 +213,16 @@ const projects = [
     padding: 24px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
+
+
+/* OCULTAR PROYECTO */
+
+.project-card.hidden {
+    display: none;
+}
+
+
+/* CABECERA */
 
 .card-header {
     display: flex;
@@ -85,6 +238,9 @@ const projects = [
     color: #111827;
 }
 
+
+/* ESTADO */
+
 .badge-status {
     background: rgba(216, 51, 51, 0.1);
     color: #d83333;
@@ -95,12 +251,18 @@ const projects = [
     border: 1px solid rgba(216, 51, 51, 0.2);
 }
 
+
+/* DESCRIPCIÓN */
+
 .project-card p {
     color: #4b5563;
     font-size: 16px;
     line-height: 1.6;
     margin: 0 0 16px 0;
 }
+
+
+/* LENGUAJES DEL PROYECTO */
 
 .tags {
     display: flex;
@@ -119,6 +281,9 @@ const projects = [
     font-weight: 500;
 }
 
+
+/* GITHUB */
+
 .link-btn {
     display: inline-block;
     color: #111827;
@@ -132,4 +297,25 @@ const projects = [
 .link-btn:hover {
     border-color: #d83333;
 }
+
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+
+    .projects-container {
+        padding: 20px;
+    }
+
+    .filters {
+        flex-wrap: wrap;
+    }
+
+    .card-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}
+
 </style>
