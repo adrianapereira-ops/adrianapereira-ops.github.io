@@ -118,6 +118,28 @@
     color: white;
 }
 
+.contact-buttons a.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    transition: color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.contact-buttons a.button:hover {
+    color: rgb(230, 230, 230);
+    box-shadow: none;
+    transform: translateY(-2px);
+}
+
+
 .contact-btn.secondary {
     background: rgba(240, 65, 255, 0.25);
     color:  #a81d85;
